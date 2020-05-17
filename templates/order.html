@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="container py-5">
+        <div class="card lebar">
+            <div class="card-body">
+                <h5><i class="fa fa-shopping-cart"></i> Review cart</h5>
+                <div class="row">
+                    <div class="col-sm-6 py-3">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <img src="{% static 'images/1.jpg' %}" alt="image1" height="50" class="border">
+                            </div>
+                            <div class="col-sm-10">
+                                Blue-Jacket Rhapsodi
+                                <br>
+                                2x $290 = Total: $430
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 py-3">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <img src="{% static 'images/1.jpg' %}" alt="image1" height="50" class="border">
+                            </div>
+                            <div class="col-sm-10">
+                                Blue-Jacket Rhapsodi
+                                <br>
+                                2x $290 = Total: $430
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 py-3">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <img src="{% static 'images/1.jpg' %}" alt="image1" height="50" class="border">
+                            </div>
+                            <div class="col-sm-10">
+                                Blue-Jacket Rhapsodi
+                                <br>
+                                2x $290 = Total: $430
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 py-3">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <img src="{% static 'images/1.jpg' %}" alt="image1" height="50" class="border">
+                            </div>
+                            <div class="col-sm-10">
+                                Blue-Jacket Rhapsodi
+                                <br>
+                                2x $290 = Total: $430
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="row">
+                    <div class="col-sm-8"><span class="font-weight-bold">Subtotal:</span></div>
+                    <div class="col-sm-2 text-right">
+                       <span class="text-muted">2 items</span>
+                    </div>
+                    <div class="col-sm-2 text-right">
+                       <span class="font-weight-bold">$1,569</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8"><span class="font-weight-bold">Discount:</span></div>
+                    <div class="col-sm-2 text-right">
+                       <span class="text-muted">10% offer</span>
+                    </div>
+                    <div class="col-sm-2 text-right">
+                       <span class="font-weight-bold text-danger">$29</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8"><span class="font-weight-bold">Tax:</span></div>
+                    <div class="col-sm-2 text-right">
+                       <span class="text-muted">5%</span>
+                    </div>
+                    <div class="col-sm-2 text-right">
+                       <span class="font-weight-bold text-success">$7</span>
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-sm-8"><span class="font-weight-bold">Total:</span></div>
+                    <div class="col-sm-4 text-right">
+                       <h5>$1,547</h5>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary btn-sm container"><i class="fa fa-hand-holding-usd"></i> Payment</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-danger btn-sm container"><i class="fa fa-undo"></i> Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

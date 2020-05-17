@@ -1,0 +1,76 @@
+.form-width {
+    margin-left: 20rem;
+    margin-right: 20rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .form-width {
+        margin-top: 4rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}
+
+.search-width {
+    width: 40rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .search-width {
+        width: 10rem;
+    }
+}
+
+.navbar-brand {
+    color: black;
+    font-weight: bold;
+}
+
+.navbar-brand:hover {
+    color: grey;
+}
+
+.nav-item a {
+    color: black;
+    font-weight: bold;
+}
+
+.active a {
+    color: greenyellow;
+}
+
+.nav-item a:hover {
+    color: rgb(153, 147, 147);
+}
+
+.lebar {
+    margin-left: 10rem;
+    margin-right: 10rem;
+}
+
+.shad:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+}
+
+.star-rating input[type=radio] {
+    display: none
+}
+
+.star-rating label {
+    color: #bbb;
+    padding: 0;
+    cursor: pointer;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input[type=radio]:checked ~ label {
+    color: #f2b600
+}

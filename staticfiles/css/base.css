@@ -1,0 +1,49 @@
+.form-width {
+    margin-left: 20rem;
+    margin-right: 20rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .form-width {
+        margin-top: 4rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}
+
+.search-width {
+    width: 40rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .search-width {
+        width: 10rem;
+    }
+}
+
+.navbar-brand {
+    color: black;
+    font-weight: bold;
+}
+
+.navbar-brand:hover {
+    color: grey;
+}
+
+.nav-item a {
+    color: black;
+    font-weight: bold;
+}
+
+.active a {
+    color: greenyellow;
+}
+
+.nav-item a:hover {
+    color: rgb(153, 147, 147);
+}
+
+.lebar {
+    margin-left: 10rem;
+    margin-right: 10rem;
+}

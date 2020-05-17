@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Section -->
+    <section class="container-fluid py-5">
+        <!-- first roq-->
+        <div class="row px-3">
+            <!-- first coloumn -->
+            <div class="col-sm-3 list-group">
+                <!-- filters sidebar -->
+                <form method="GET" action="{% url 'search' %}">
+                <div class="list-group-item">
+                    <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#category">Categories</a>
+                    <div class="collapse py-3 show" id="category">
+                            <div class="input-group">
+                                <input type="text" class="form-control search-width" placeholder="Search..." name='q'>
+                            </div>
+                        <div class="py-2">
+                            <div class="custom-control custom-checkbox mb-3">
+                                {% for category in categories %}
+                                <div>
+                                    <input type="checkbox" class="custom-control-input" id="{{ category.category }}" name="q" value="{{ category.category }}">
+                                    <label class="custom-control-label" for="{{ category.category }}">{{ category.category }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#brand">Brands</a>
+                    <div class="collapse py-3 show" id="brand">
+                        <div class="custom-control custom-checkbox mb-3">
+                            {% for brand in brands %}
+                            <div>
+                                <input type="checkbox" class="custom-control-input" id="{{ brand.brand }}" name="q" value="{{ brand.brand }}">
+                                <label class="custom-control-label" for="{{ brand.brand }}">{{ brand.brand }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#product">Product Name</a>
+                    <div class="collapse py-3 show" id="product">
+                        <div class="custom-control custom-checkbox mb-3">
+                            {% for product in title %}
+                            <div>
+                                <input type="checkbox" class="custom-control-input" id="{{ product.title }}" name="q" value="{{ product.title }}">
+                                <label class="custom-control-label" for="{{ product.title }}">{{ product.title }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button class="btn btn-primary container" type="submit">Apply</button>
+                    </div>
+                </div>
+                </form>
+                <!-- end of filter -->
+            </div>
+            <!-- end of first coloumn -->
+            <!-- second coloumn -->
+            <div class="col-sm-9">
+                <h5><i class="fa fa-list"></i> All Products</h5>
+                <div class="row">
+                    {% for product in product %}
+                    <div class="col-sm-3 pb-3">
+                        <div class="card border-success shad">
+                            <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..."></a>
+                            <div class="card-body text-center">
+                              <p>{{ product.title }}</p>
+                              {% with ''|center:5 as range %}
+                              {% for _ in range %}
+                                <span><i class="fa fa-star 
+                                    {% if forloop.counter <= product.rating %}
+                                        text-warning
+                                    {% else %}
+                                        text-secondary
+                                    {% endif %}"></i></span>
+                    {% endfor %}    
+                    {% endwith %}
+                              <span class="text-muted">{{ product.rating }}/5</span>
+                              <p class="font-weight-bold">${{ product.price }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">3</a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                </nav>
+                <!-- end of pagination -->
+            </div>
+            <!-- end of second coloumn -->
+        </div>
+        <!-- end of first row -->
+    </section>
+    <!-- end of sections -->
+{% endblock content %}

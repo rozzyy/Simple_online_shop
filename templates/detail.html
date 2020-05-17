@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="container py-5">
+       <div class="card">
+           <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <img src="{{ object.image.url }}" alt="baju">
+                </div>
+                <div class="col">
+                    <h3>{{ object.title }}</h3>
+                    <div class="row">
+                        <div class="col">
+                            {% with ''|center:object.rating as range %}
+                            {% for s in range %}
+                                <span><i class="fa fa-star text-warning"></i></span>
+                            {% endfor %}
+                            {% endwith %}
+                        </div>
+                        <div class="col">
+                            <span class="text-muted">135 reviews</span>
+                        </div>
+                        <div class="col">
+                            <span class="text-success"><i class="fas fa-check-square"></i> 145 orders</span>
+                        </div>
+                    </div>
+                    <h5>${{ object.price }}<span class="text-muted"> /per piece</span></h5>
+                    <p class="text-secondary">
+                        {{ object.description }}
+                    </p>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td>Category</td>
+                                <td class="font-weight-bold">
+                                    {{ object.category }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Date Release</td>
+                                <td class="font-weight-bold">
+                                    {{ object.date_release }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Stock</td>
+                                <td class="font-weight-bold">
+                                    {{ object.stock }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% if object.category == "Fashions" %}
+                    <p class="pb-2">Select Size:</p>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <form>
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="S" name="example1">
+                                  <label class="custom-control-label font-weight-bold" for="S">S</label>
+                                </div>
+                              </form>
+                        </div>
+                        <div class="col">
+                            <form>
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="M" name="example1">
+                                  <label class="custom-control-label font-weight-bold" for="M">M</label>
+                                </div>
+                              </form>
+                        </div>
+                        <div class="col">
+                            <form>
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="L" name="example1">
+                                  <label class="custom-control-label font-weight-bold" for="L">L</label>
+                                </div>
+                              </form>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="row py-3 card-footer">
+                        <div class="col">
+                            <button class="btn btn-success btn-sm container"><i class="fa fa-credit-card"></i> Buy Now</button>
+                        </div>
+                        <div class="col">
+                            <a href="{% url 'add_to_cart' object.pk %}" class="btn btn-outline-success btn-sm container"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           </div>
+       </div>
+    </section>
+{% endblock content %}

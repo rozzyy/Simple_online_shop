@@ -1,0 +1,34 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<section class="container py-5">
+  <div class="card">
+    <div class="card-body">
+      <h3>Result of "{{ query }}"</h3>
+      <hr>
+      {% if search.exists == False %}
+      <div class="alert alert-danger container">No Result Found.</div>
+      {% endif %} 
+      <div class="row py-3">
+        {% for product in search %}
+        <div class="col-sm-3">
+          <div class="card border-success">
+            <img src="{{ product.image.url }}" class="card-img-top" alt="..." />
+            <div class="card-body">
+              <p>{{ product.title }}</p>
+              {% with ''|center:product.rating as range %} 
+              {% for _ in range %}
+              <span><i class="fa fa-star text-warning"></i></span>
+              {% endfor %} 
+              {% endwith %}
+              <span class="text-muted">50 reviews</span>
+              <p class="font-weight-bold">${{ product.price }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

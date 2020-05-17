@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="container py-5">
+        {% if object.item.all.exists == False %}
+        <div style="height: 20rem;">
+            <div class="alert alert-warning">
+                No item in cart.
+            </div>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-header"><h5><i class="fa fa-shopping-cart"></i> Your Cart</h5></div>
+            <div class="card-body">
+               <div class="row">
+                <div class="col-sm-9 border-right">
+                    <table class="table table-borderless">
+                        <thead>
+                            <th colspan="2" class="text-secondary">Product</th>
+                            <th class="text-secondary">Quantity</th>
+                            <th colspan="3" class="text-secondary">Price</th>
+                        </thead>
+                        <tbody>
+                            {% for order_item in object.item.all %}
+                            <tr>
+                                <td>
+                                    <img src="{{ order_item.product.image.url }}" alt="clothes" height="80">
+                                </td>
+                                <td>
+                                    <span class="font-weight-bold">{{ order_item.product.title }}</span>
+                                    <p class="text-muted">
+                                        {% if order_item.product.category == "Fashions" %}
+                                        Size: S 
+                                        <br>
+                                        {% endif %}
+                                        Brand: {{ order_item.product.brand }}
+                                    </p>
+                                </td>
+                                <td class="py-4">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a href="{% url 'single_remove_item' order_item.product.pk %}" type="button" class="btn btn-outline-dark btn-sm"><i class="fa fa-minus"></i></a>
+                                        <div class="border pt-2 px-3">{{ order_item.quantity }}</div>
+                                        <a href="{% url 'add_to_cart' order_item.product.pk %}" class="btn btn-outline-dark btn-sm"><i class="fa fa-plus"></i></a>
+                                      </div>
+                                </td>
+                                <td class="py-4">${{ order_item.product.price }}</td>
+                                <td class="py-4">
+                                    <a href="{% url 'remove_from_cart' order_item.product.pk %}" class="btn btn-outline-dark btn-sm container"><i class="fa fa-trash-alt"></i> Remove</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-3 py-3">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>Total price</td>
+                                <td class="text-right">${{ total }}</td>
+                            </tr>
+                            <tr>
+                                <td>Discount</td>
+                                <td class="text-danger text-right">
+                                    {% load humanize %}
+                                    -${{ discount|floatformat:2 }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tax</td>
+                                <td class="text-success text-right">+$14.00</td>
+                            </tr>
+                            <tr>
+                                <td>Total: </td>
+                                <td class="font-weight-bold text-right">${{ total_all }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><button class="btn btn-dark container"><i class="fa fa-shopping-basket"></i> Make Purchase</button></p>
+                    <button class="btn btn-outline-dark container"><i class="fa fa-shopping-bag"></i> Continue Shopping</button>
+                </div>
+               </div>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+{% endblock content %}
