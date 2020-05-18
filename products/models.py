@@ -15,6 +15,7 @@ class Product(models.Model):
     date_release = models.DateTimeField(auto_now_add=False)
     stock = models.PositiveIntegerField(default=0)
     rating = models.FloatField(default=0)
+    reviews = models.IntegerField(default=0)
     
     def __str__(self):
         return self.title

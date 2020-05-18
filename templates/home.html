@@ -53,68 +53,35 @@
         </div>
         <h2 class="py-3">Populer Products</h2>
         <div class="row">
+            {% for product in popular %}
             <div class="col-sm-3">
-                <div class="card border-success">
-                    <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <p>Just Another Title</p>
-                      <span class="muted">23 Reviews</span>
-                      <p class="font-weight-bold">$179.00</p>
+                <div class="card border-success shad">
+                    <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..."></a>
+                    <div class="card-body text-center">
+                      <p>{{ product.title }}</p>
+                    {% with ''|center:5 as range %}
+                    {% for _ in range %}
+                        <span><i class="fa fa-star 
+                        {% if forloop.counter <= product.rating %}
+                            text-warning
+                        {% else %}
+                            text-secondary
+                        {% endif %}"></i></span>
+                    {% endfor %}    
+                    {% endwith %}
+                        <span class="text-muted">{{ product.reviews }} reviews</span>
+                    <span class="font-weight-bold">${{ product.price }}</span>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="card border-success">
-                    <img src="{% static 'images/2.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <p>Just Another Title</p>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star"></i></span>
-                      <span class="muted">23 Reviews</span>
-                      <p class="font-weight-bold">$179.00</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card border-success">
-                    <img src="{% static 'images/3.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <p>Just Another Title</p>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star"></i></span>
-                      <span class="muted">23 Reviews</span>
-                      <p class="font-weight-bold">$179.00</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card border-success">
-                    <img src="{% static 'images/4.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <p>Just Another Title</p>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star text-warning"></i></span>
-                      <span><i class="fa fa-star"></i></span>
-                      <span class="muted">23 Reviews</span>
-                      <p class="font-weight-bold">$179.00</p>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
        <div class="row py-3">
            <div class="col-sm-9">
                <h2>Latest Products</h2>
            </div>
            <div class="col-sm-3 text-right">
-               <button class="btn btn-outline-success">See All</button>
+               <a href="{% url 'product' %}" class="btn btn-outline-success">See All</a>
            </div>
        </div>
         <div class="row py-3">
@@ -134,17 +101,7 @@
                         {% endif %}"></i></span>
                     {% endfor %}    
                     {% endwith %}
-                    <div class="star-rating">
-                    {% with ''|center:5 as range %}
-                    {% for _ in range %}
-                        <input id="star-{{ forloop.revcounter }}" type="radio" name="rating" value="star-{{ forloop.revcounter }}"/>
-                        <label for="star-{{ forloop.revcounter }}" title="5 stars">
-                          <i class="active fa fa-star" aria-hidden="true"></i>
-                        </label>
-                    {% endfor %}
-                    {% endwith %}
-                    </div>
-                        <span class="text-muted">50 reviews</span>
+                        <span class="text-muted">{{ product.reviews }} reviews</span>
                     <span class="font-weight-bold">${{ product.price }}</span>
                     </div>
                 </div>

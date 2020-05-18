@@ -2,33 +2,38 @@
 
 {% block content %}
 <section class="container py-5">
-  <div class="card">
-    <div class="card-body">
-      <h3>Result of "{{ query }}"</h3>
-      <hr>
-      {% if search.exists == False %}
-      <div class="alert alert-danger container">No Result Found.</div>
-      {% endif %} 
-      <div class="row py-3">
-        {% for product in search %}
-        <div class="col-sm-3">
-          <div class="card border-success">
-            <img src="{{ product.image.url }}" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <p>{{ product.title }}</p>
-              {% with ''|center:product.rating as range %} 
-              {% for _ in range %}
-              <span><i class="fa fa-star text-warning"></i></span>
-              {% endfor %} 
-              {% endwith %}
-              <span class="text-muted">50 reviews</span>
-              <p class="font-weight-bold">${{ product.price }}</p>
-            </div>
+  {% if query == ""%}
+  <h3>Result of "ALL"</h3>
+  {% else %}
+  <h3>Result of "{{ query }}"</h3>
+  {% endif %}
+  <hr>
+  {% if search.exists == False %}
+    <div class="alert alert-danger container">No Result Found.</div>
+  {% endif %} 
+    <div class="row py-3">
+      {% for product in search %}
+      <div class="col-sm-3">
+        <div class="card border-success shad">
+          <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..."></a>
+          <div class="card-body text-center">
+            <p>{{ product.title }}</p>
+            {% with ''|center:5 as range %}
+            {% for _ in range %}
+              <span><i class="fa fa-star 
+              {% if forloop.counter <= product.rating %}
+                text-warning
+              {% else %}
+                text-secondary
+              {% endif %}"></i></span>
+            {% endfor %}    
+            {% endwith %}
+              <span class="text-muted">{{ product.reviews }} reviews</span>
+              <span class="font-weight-bold">${{ product.price }}</span>
           </div>
         </div>
-        {% endfor %}
       </div>
-    </div>
+      {% endfor %}
   </div>
 </section>
 {% endblock content %}

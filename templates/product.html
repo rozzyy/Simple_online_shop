@@ -79,7 +79,14 @@
                                     {% endif %}"></i></span>
                     {% endfor %}    
                     {% endwith %}
-                              <span class="text-muted">{{ product.rating }}/5</span>
+                              <span class="text-muted">{{ product.rating }}/5.0</span>
+                              <div class="text-muted">
+                                  {% if product.reviews > 1 %}
+                                  {{ product.reviews }} reviews
+                                  {% else %}
+                                  {{ product.reviews }} review
+                                  {% endif %}
+                              </div>
                               <p class="font-weight-bold">${{ product.price }}</p>
                             </div>
                         </div>

@@ -29,13 +29,26 @@
                                 </td>
                                 <td>
                                     <span class="font-weight-bold">{{ order_item.product.title }}</span>
-                                    <p class="text-muted">
+                                    <div class="text-muted">
                                         {% if order_item.product.category == "Fashions" %}
                                         Size: S 
                                         <br>
                                         {% endif %}
                                         Brand: {{ order_item.product.brand }}
-                                    </p>
+                                        <div>
+                                            <span>Your rating: </span>
+                                        {% with ''|center:5 as range %}
+                                        {% for _ in range %}
+                                        <span><i class="fa fa-star 
+                                        {% if forloop.counter <= order_item.rating %}
+                                            text-warning
+                                        {% else %}
+                                            text-secondary
+                                        {% endif %}"></i></span>
+                                        {% endfor %}    
+                                        {% endwith %}
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="py-4">
                                     <div class="btn-group" role="group" aria-label="Basic example">

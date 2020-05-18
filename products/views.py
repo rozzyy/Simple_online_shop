@@ -20,11 +20,12 @@ class ProfilePageView(TemplateView):
 class HomePageView(View):
     template_name = 'home.html'
 
-    def get(self, request): 
+    def get(self, request):
         latest = Product.objects.order_by('-created_date')
         category = Product.objects.all().values('category').order_by('category')
+        popular = Product.objects.order_by('-reviews')
 
-        return render(request, self.template_name, {'latest': latest, 'category': category})
+        return render(request, self.template_name, {'latest': latest, 'category': category, 'popular': popular})
 
 class ProductPageView(View):
     template_name = 'product.html'
@@ -70,20 +71,57 @@ def add_to_cart(request, id):
     order_item, created = Cart.objects.get_or_create(
         product=item, user=request.user, ordered=False
     )
+
     order_qs = Order.objects.filter(user=request.user, ordered=False)
     if order_qs.exists():
         order = order_qs[0]
         if order.item.filter(product__id=item.pk).exists():
+            rating = request.POST.get('rating')
+            cart = Cart.objects.filter(product=item.pk)
+            if rating == None:
+                rating = 0
+                order_item.rating += rating
+            else: 
+                order_item.rating = int(rating)
+
             order_item.quantity += 1
             total = order_item.quantity * item.price
             order_item.total_price = total
             order_item.save()
+            total_rating = 0
+            users = cart.values('user').count()
+            for crating in cart:
+                total_rating += crating.rating 
+
+            total = total_rating / users
+            item.rating = total
+            item.reviews = users
+            item.save()
             return redirect("cart")
         else:
             total = order_item.quantity * item.price
             order_item.total_price = total
+            rating = request.POST.get('rating')
+            cart = Cart.objects.filter(product=item.pk)
+            if rating == None:
+                rating = 0
+                order_item.rating += rating
+                users = cart.values('user').count() - 1
+            else: 
+                order_item.rating = int(rating)
+                users = cart.values('user').count()
+
+            order_item.rating = int(rating)
             order_item.save()
             order.item.add(order_item)
+            total_rating = 0
+            for crating in cart:
+                total_rating += crating.rating 
+
+            total = total_rating / users
+            item.rating = total
+            item.reviews = users
+            item.save()
             return redirect('cart')
     else:
         ordered_date = timezone.now()
@@ -93,8 +131,29 @@ def add_to_cart(request, id):
         order.item.add(order_item)
         total = order_item.quantity * item.price
         order_item.total_price = total
+        rating = request.POST.get('rating')
+        cart = Cart.objects.filter(product=item.pk)
+        if rating == None:
+            rating = 0
+            order_item.rating += rating
+        else: 
+            order_item.rating = int(rating)
+
+        order_item.rating = int(rating)
         order_item.save()
+        total_rating = 0
+        users = cart.values('user').count()
+        for crating in cart:
+            total_rating += crating.rating 
+        if total_rating == 0:
+            total = 0
+        else:
+            total = total_rating / users
+        item.rating = total
+        item.reviews = users
+        item.save()
         return redirect("cart")
+
 
 def remove_from_cart(request, id):
     item = get_object_or_404(Product, pk=id)
@@ -112,11 +171,21 @@ def remove_from_cart(request, id):
             )[0]
             order.item.remove(order_item)
             order_item.delete()
+            total_rating = 0
+            cart = Cart.objects.filter(product=item.pk)
+            for crating in cart:
+                total_rating += crating.rating 
+
+            users = cart.values('user').count()
+            total = total_rating / users
+            item.rating = total
+            item.reviews = users
+            item.save()
             return redirect('cart')
         else:
-            return redirect('product', pk=id)
+            return redirect('cart')
     else:
-        return redirect('product', pk=id)
+        return redirect('cart')
 
 def single_remove_item(request, id):
     item = get_object_or_404(Product, pk=id)
