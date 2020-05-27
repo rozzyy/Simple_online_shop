@@ -3,6 +3,7 @@ from django.views.generic import (
     ListView, 
     CreateView, 
     DetailView,
+    UpdateView
 )
 from django.views.generic.base import View
 from django.urls import reverse_lazy
@@ -11,39 +12,63 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 # User Profile View
-class ProfilePageView(TemplateView):
+class ProfilePageView(View):
     template_name = 'account/profile.html'
+
+    def get(self, *args, **kwargs):
+        return render(self.request, self.template_name, {})
+
 
 class HomePageView(View):
     template_name = 'home.html'
 
     def get(self, request):
         latest = Product.objects.order_by('-created_date')
-        category = Product.objects.all().values('category').order_by('category')
-        popular = Product.objects.order_by('-reviews')
+        latest_paginator = Paginator(latest, 4)
+        page_number = request.GET.get('page')
+        page_obj = latest_paginator.get_page(page_number)
 
-        return render(request, self.template_name, {'latest': latest, 'category': category, 'popular': popular})
+        category = Product.objects.all().values('category').order_by('category')
+
+        popular = Product.objects.order_by('-reviews')
+        popular_paginator = Paginator(popular, 4)
+        popular_page_obj = popular_paginator.get_page(page_number)
+       
+        return render(request, self.template_name, {'latest': page_obj, 'category': category, 'popular': popular_page_obj})
 
 class ProductPageView(View):
     template_name = 'product.html'
 
     def get(self, request):
-        product = Product.objects.all()
+        product = Product.objects.order_by('created_date')
+        paginator = Paginator(product, 15)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         categories = Product.objects.all().values('category').order_by('category')
         brands = Product.objects.all().values('brand').order_by('brand')
         title = Product.objects.all().values('title').order_by('title')[:10]
 
-        return render(request, self.template_name, {'product': product, 'categories': categories, 'brands': brands, 'title': title})
+        return render(request, self.template_name, {'product': page_obj, 'categories': categories, 'brands': brands, 'title': title})
 
-class DetailPageView(DetailView):
-    model = Product 
+class DetailPageView(View):
     template_name = 'detail.html'
 
-class CartView(View):
+    def get(self, request, id):
+        product = Product.objects.get(pk=id)
+        rating = int(product.rating)
+
+        return render(request, self.template_name, {'object': product, 'rating': rating})
+
+class CartView(LoginRequiredMixin, View):
     template_name = 'cart.html'
+    login_url = 'login'
 
     def get(self, *args, **kwargs):
         try:
@@ -53,10 +78,12 @@ class CartView(View):
                 total += item.total_price
             
             discount = 10/100 * float(total)
+            tax = 5/100 * float(total)
 
-            total_all = float(total) - discount + 14
+            total_all = float(total) - discount + tax
 
             context = {
+                'tax' : tax,
                 'object': order,
                 'total': total,
                 'discount': discount,
@@ -64,8 +91,9 @@ class CartView(View):
             }
             return render(self.request, self.template_name, context)
         except ObjectDoesNotExist:
-            return redirect('/')
+            return redirect('product')
 
+@login_required(login_url='login')
 def add_to_cart(request, id):
     item = get_object_or_404(Product, pk=id)
     order_item, created = Cart.objects.get_or_create(
@@ -154,7 +182,7 @@ def add_to_cart(request, id):
         item.save()
         return redirect("cart")
 
-
+@login_required(login_url='login')
 def remove_from_cart(request, id):
     item = get_object_or_404(Product, pk=id)
     order_qs = Order.objects.filter(
@@ -187,6 +215,7 @@ def remove_from_cart(request, id):
     else:
         return redirect('cart')
 
+@login_required(login_url='login')
 def single_remove_item(request, id):
     item = get_object_or_404(Product, pk=id)
     order_qs = Order.objects.filter(
@@ -216,12 +245,39 @@ def single_remove_item(request, id):
 
 
 
-class OrderView(TemplateView):
+class OrderView(LoginRequiredMixin, View):
     template_name = 'order.html'
+    login_url = 'login'
 
-class PaymentView(TemplateView):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            total = 0 
+            for item in order.item.all():
+                total += item.total_price 
+
+            discount = 10/100 * int(total)
+
+            tax = 5/100 * float(total)
+
+            total_all = float(total) - discount + tax
+
+            context = {
+                'object': order,
+                'total' : total,
+                'discount' : discount,
+                'total_all' : total_all,
+                'tax' : tax   
+            }
+
+            return render(self.request, self.template_name, context)
+        except ObjectDoesNotExist:
+            return redirect('product')
+
+class PaymentView(LoginRequiredMixin, TemplateView):
     template_name = 'payment.html'
-
+    login_url = 'login'
+    
 class SignUpDoneView(TemplateView):
     template_name = 'signup_done.html'
 

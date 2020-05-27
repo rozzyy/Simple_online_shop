@@ -14,9 +14,13 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
-    
     <!-- Login Form -->
     <section class="container" style="padding-top:10%;">
+        {% if user.is_authenticated %}
+        <div class="alert alert-warning text-center">
+            <h3>You are still login. Please go <a href="{% url 'home' %}">Back</a></h3>
+        </div>
+        {% else %}
         <div class="card form-width">
             <div class="card-body">
                 <h2 class="text-center"><a href="{% url 'home' %}" class="nav-link text-dark"><i class="fab fa-shopify"></i> Simple Online Shop</a></h2>
@@ -27,7 +31,7 @@
                 </form>
                 <div class="row py-2">
                     <div class="col-sm-6">
-                        <a href="#">Don't have an account?</a>
+                        <a href="{% url 'signup' %}">Don't have an account?</a>
                     </div>
                     <div class="col-sm-6">
                         <a href="#">Forgot your password</a>
@@ -37,7 +41,7 @@
         </div>
     </section>
     <!-- end of Login form -->
-
+    {% endif %}
     <!-- Bootstrap 4 -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

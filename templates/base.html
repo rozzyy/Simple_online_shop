@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-    <!-- Rating star -->
-    <link rel="stylesheet" href="{% static 'css/SimpleStarRating.css' %}">
     
 </head>
 <body>
@@ -41,9 +39,11 @@
                 <li class="nav-item mt-2">
                     <a class="nav-link" href="{% url 'product' %}">Products</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item mt-2">
                     <a class="nav-link" href="{% url 'cart' %}">Your Cart</a>
                 </li>
+                {% endif %}
                 <li class="nav-item mt-2">
                     <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                 </li>
@@ -88,8 +88,8 @@
                     <li><a href="{% url 'signup' %}" class="text-dark">User Register</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'profile' %}" class="text-dark">Profile</a></li>
-                    {% endif %}
                     <li><a href="{% url 'order' %}" class="text-dark">My Order</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="col-sm-2">
@@ -128,7 +128,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!-- star rating -->
-    <script src="{% static 'css/SimpleStarRating.js' %}"></script>
     <script>
         var ratings = document.getElementsByClassName('rating');
     </script>

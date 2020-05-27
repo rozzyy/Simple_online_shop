@@ -13,16 +13,18 @@
                     <h3>{{ object.title }}</h3>
                     <div class="row">
                         <div class="col">
-                            {% with ''|center:5 as range %}
-                            {% for _ in range %}
-                                <span><i class="fa fa-star 
-                                {% if forloop.counter <= object.rating %}
-                                    text-warning
-                                {% else %}
-                                    text-secondary
-                                {% endif %}"></i></span>
-                            {% endfor %}    
-                            {% endwith %}
+                            <form method="POST" action="{% url 'add_to_cart' object.pk %}">
+                                {% csrf_token %}
+                            <div class="star-rating">
+                                {% with ''|center:5 as range %}
+                                {% for _ in range %}
+                                    <input id="star-{{ forloop.revcounter }}" type="radio" name="rating" value="{{ forloop.revcounter }}" {% if forloop.revcounter == rating %}checked {% endif %}>
+                                    <label for="star-{{ forloop.revcounter }}" title="5 stars">
+                                      <i class="active fa fa-star" aria-hidden="true"></i>
+                                    </label>
+                                {% endfor %}
+                                {% endwith %}
+                            </div>
                         </div>
                         <div class="col">
                             <span class="text-muted">{{ object.reviews }} reviews</span>
@@ -46,7 +48,7 @@
                             <tr>
                                 <td>Date Release</td>
                                 <td class="font-weight-bold">
-                                    {{ object.date_release }}
+                                    {{ object.date_release|date:"d M Y" }}
                                 </td>
                             </tr>
                             <tr>
@@ -55,32 +57,11 @@
                                     {{ object.stock }}
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Rating</td>
-                                <td>
-                                    <form method="POST" action="{% url 'add_to_cart' object.pk %}">
-                                        {% csrf_token %}
-                                    <div class="star-rating">
-                                        {% with ''|center:5 as range %}
-                                        {% for _ in range %}
-                                            <input id="star-{{ forloop.revcounter }}" type="radio" name="rating" value="{{ forloop.revcounter }}">
-                                            <label for="star-{{ forloop.revcounter }}" title="5 stars">
-                                              <i class="active fa fa-star" aria-hidden="true"></i>
-                                            </label>
-                                        {% endfor %}
-                                        {% endwith %}
-                                    </div>
-                                    <br>
-                                    <small>
-                                        Please rate this product.
-                                    </small>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     <div class="row py-3 card-footer">
                         <div class="col">
-                            <button class="btn btn-success btn-sm container"><i class="fa fa-credit-card"></i> Buy Now</button>
+                            <a href="{% url 'payment' %}" class="btn btn-success btn-sm container"><i class="fa fa-credit-card"></i> Buy Now</a>
                         </div>
                         <div class="col">
                             <button type="submit" class="btn btn-outline-success btn-sm container"><i class="fa fa-shopping-cart"></i> Add to cart</button>

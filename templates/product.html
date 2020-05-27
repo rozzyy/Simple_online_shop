@@ -97,20 +97,37 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                       <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </a>
+                        <a class="page-link" href="?page=1"><i class="fa fa-chevron-left"></i></a>
                       </li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
                       <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                        </a>
+                        {% if product.has_previous %}
+                        <a href="?page={{ product.previous_page_number }}" class="page-link"><i class="fa fa-angle-double-left"></i></a>
+                        {% endif %}
+                      </li>
+                      {% for page_num in product.paginator.page_range %} 
+                      {% if product.number == page_num %}
+                      <li class="page-item active">
+                        <span class="page-link"
+                          >{{ page_num }} <span class="sr-only">(current)</span></span
+                        >
+                      </li>
+                      {% elif page_num > product.number|add:'-5' and page_num < product.number|add:'5' %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                      </li>
+                      {% endif %} {% endfor %}
+                      <li class="page-item">
+                        {% if product.has_next %}
+                        <a href="?page={{ product.next_page_number }}" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+                        {% endif %}
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ product.paginator.num_pages}}"
+                          ><i class="fa fa-chevron-right"></i
+                        ></a>
                       </li>
                     </ul>
-                </nav>
+                  </nav>
                 <!-- end of pagination -->
             </div>
             <!-- end of second coloumn -->

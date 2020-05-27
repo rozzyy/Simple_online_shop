@@ -3,111 +3,78 @@
 
 {% block content %}
 <section class="m-5">
-  <div class="row py-3">
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body border-top border-success text-center">
-          <img
-            src="{% static 'admin-lte/dist/img/user1-128x128.jpg' %}"
-            alt="user"
-            class="rounded-circle"
-          />
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Alex Bughetti</li>
-            <li class="list-group-item">alexbughetti@gmail.com</li>
-            <li class="list-group-item">
-              <div class="row">
-                <div class="col">Date joined: <br> 17 April 2020</div>
-                <div class="col">Last Login: <br> 19 April 2020</div>
-              </div>
-            </li>
-          </ul>
+  <div class="pb-3"> 
+    <h3 class="p-3 bg-light">My Account</h3>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-1 px-2">
+            
+            <img src="{% static 'images/user_default.png' %}" alt="users" class="border rounded-circle" height="100">
+          </div>
+          <div class="col-sm-10">
+            <h3><span>{{ user.first_name }}</span><span> {{ user.last_name }}</span></h3>
+            <div>{{ user.email }}</div>
+          </div>
+          <div class="col-sm-1 text-right">
+            <a href="#" class="btn btn-outline-primary btn-sm">Edit</a>
+          </div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-header text-center bg-success text-light">
-          About
+        <hr>
+        <span><i class="fa fa-map-marker text-secondary"></i></span><span> My Address :</span>
+        <div>
+          {{ user.address }} 
         </div>
-        <div class="card-body">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo,
-          perferendis! Reprehenderit beatae tempore ea, saepe praesentium iusto
-          incidunt ratione amet obcaecati vel repudiandae nesciunt quisquam
-          porro earum. Ab, hic accusamus.Minima dolor, odit explicabo
-          accusantium perspiciatis similique fugiat cupiditate delectus optio
-          eaque nihil voluptatem ex soluta sed quae libero error est dolores?
-          Repellat quae qui soluta magnam repudiandae beatae nostrum.
+        <div class="card-group py-2">
+          <div class="card bg-light">
+            <div class="card-body">
+              <h3>20</h3>
+              <p class="font-weight-bold">
+                Orders
+              </p>
+            </div>
+          </div>
+          <div class="card bg-light">
+            <div class="card-body">
+              <h3>20</h3>
+              <p class="font-weight-bold">
+                Items in cart
+              </p>
+            </div>
+          </div>
+          <div class="card bg-light">
+            <div class="card-body">
+              <h3>20</h3>
+              <p class="font-weight-bold">
+                Delivery items
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col">
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            id="home-tab"
-            data-toggle="tab"
-            href="#home"
-            role="tab"
-            aria-controls="home"
-            aria-selected="true"
-            >Items In Cart</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            id="profile-tab"
-            data-toggle="tab"
-            href="#profile"
-            role="tab"
-            aria-controls="profile"
-            aria-selected="false"
-            >Order History</a
-          >
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
-        <div
-          class="tab-pane fade show active py-3" 
-          id="home"
-          role="tabpanel"
-          aria-labelledby="home-tab"
-        >
-        <table class="table table-striped">
-            <thead>
-              <tr>
-                <th colspan="2">Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Test Product</td>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-                <td>$500</td>
-                <td>
-                    <div class="border text-center">
-                        1
-                    </div>
-                </td>
-                <td>$500</td>
-              </tr>
-            </tbody>
-          </table>
-        <button class="btn btn-outline-success btn-sm">Update</button>
-        <button class="btn btn-success btn-sm">Check Out</button>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h2>Recent orders</h2>
+      <div class="row py-3">
+        {% for item in order.item.all %}
+        <div class="col-sm-4"> 
+          <div class="row">
+            <div class="col-sm-3">
+              <img src="{{ item.product.image.url }}" alt="baju" class="border" height="100">
+            </div>
+            <div class="col-sm-9 px-4">
+              <i class="fa fa-calendar text-secondary"></i>
+              <span class="text-muted">{{ item.created_date|date:"d.m.Y" }}</span>
+              <div> {{ item.product.title }}</div>
+              <div>${{ item.product.price }}</div>
+            </div>
+          </div>
         </div>
-        <div
-          class="tab-pane fade"
-          id="profile"
-          role="tabpanel"
-          aria-labelledby="profile-tab"
-        >
-          ...
-        </div>
+        {% endfor %}
       </div>
+      <a href="{% url 'order' %}" class="btn btn-outline-primary font-weight-bold">See All Orders</a>
     </div>
   </div>
 </section>

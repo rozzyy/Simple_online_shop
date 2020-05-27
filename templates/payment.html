@@ -3,94 +3,18 @@
 
 {% block content %}
     <section class="container py-5">
-        <div class="alert alert-success">
-            Payment Success!
-        </div>
         <div class="card">
-            <div class="card-header">
-                <span class="font-weight-bold mr-5">Transaction ID: 61814248</span>
-                <span class="text-muted">Date: 17 April 2020</span>
-            </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <div class="text-muted font-weight-bold">
-                            Payment
-                        </div>
-                        <div class="text-success">
-                            <i class="fab fa-cc-visa"></i> Visa **** 4216
-                        </div>
-                        <div>
-                            Subtotal: $356
-                        </div>
-                        <div>
-                            Shipping fee: $56
-                        </div>
-                        <div class="font-weight-bold">
-                            Total: $456
-                        </div>
+                <div class="text-center">
+                    <i class="far fa-check-circle fa-5x text-success"></i>
+                    <div>
+                        <h2 class="display-4 font-weight-bold">Payment Success!</h2>
                     </div>
-                    <div class="col">
-                        <div class="text-muted font-weight-bold">
-                            Contact
-                        </div>
-                        <div>
-                            Alex Bughetti
-                        </div>
-                        <div>
-                            +62813456790
-                        </div>
-                        <div>
-                            alex.bughetti@gmail.com
-                        </div>
+                    <div class="font-weight-bold">
+                        Thank you to take our services.
                     </div>
-                    <div class="col">
-                        <div class="text-muted font-weight-bold">
-                            Shipping address
-                        </div>
-                        <div>
-                            Home 123, Building name, Street Abcd, Tashkent Uzbekistan
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col">
-                        <div class="row">
-                           <div class="col-sm-3">
-                            <img src="{% static 'images/7.jpg' %}" alt="jpg" height="80" class="border">
-                           </div>
-                           <div class="col-sm-9">
-                               <div>Watch-stars Rhapsodi</div>
-                               <div class="text-muted">
-                                   $145
-                               </div>
-                           </div>
-                        </div>
-                    </div>
-                    <div class="col"> <div class="row">
-                        <div class="col-sm-3">
-                         <img src="{% static 'images/7.jpg' %}" alt="jpg" height="80" class="border">
-                        </div>
-                        <div class="col-sm-9">
-                            <div>Watch-stars Rhapsodi</div>
-                            <div class="text-muted">
-                                $145
-                            </div>
-                        </div>
-                     </div></div>
-                    <div class="col">
-                        <div class="row">
-                            <div class="col-sm-3">
-                             <img src="{% static 'images/7.jpg' %}" alt="jpg" height="80" class="border">
-                            </div>
-                            <div class="col-sm-9">
-                                <div>Watch-stars Rhapsodi</div>
-                                <div class="text-muted">
-                                    $145
-                                </div>
-                            </div>
-                         </div>
+                    <div>
+                        <span><a href="{% url 'home' %}">Home</a></span>
                     </div>
                 </div>
             </div>

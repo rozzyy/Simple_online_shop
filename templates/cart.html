@@ -30,10 +30,6 @@
                                 <td>
                                     <span class="font-weight-bold">{{ order_item.product.title }}</span>
                                     <div class="text-muted">
-                                        {% if order_item.product.category == "Fashions" %}
-                                        Size: S 
-                                        <br>
-                                        {% endif %}
                                         Brand: {{ order_item.product.brand }}
                                         <div>
                                             <span>Your rating: </span>
@@ -82,16 +78,16 @@
                             </tr>
                             <tr>
                                 <td>Tax</td>
-                                <td class="text-success text-right">+$14.00</td>
+                                <td class="text-success text-right">+${{ tax|floatformat:2 }}</td>
                             </tr>
                             <tr>
                                 <td>Total: </td>
-                                <td class="font-weight-bold text-right">${{ total_all }}</td>
+                                <td class="font-weight-bold text-right">${{ total_all|floatformat:2 }}</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p><button class="btn btn-dark container"><i class="fa fa-shopping-basket"></i> Make Purchase</button></p>
-                    <button class="btn btn-outline-dark container"><i class="fa fa-shopping-bag"></i> Continue Shopping</button>
+                    <p><a href="{% url 'order' %}" class="btn btn-dark container"><i class="fa fa-shopping-basket"></i> Make Purchase</a></p>
+                    <a href="{% url 'product' %}" class="btn btn-outline-dark container"><i class="fa fa-shopping-bag"></i> Continue Shopping</a>
                 </div>
                </div>
             </div>
