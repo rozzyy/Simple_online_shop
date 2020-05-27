@@ -9,15 +9,14 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm-1 px-2">
-            
-            <img src="{% static 'images/user_default.png' %}" alt="users" class="border rounded-circle" height="100">
+            <img src="{% if user.photo %}{{ user.photo.url }}{% else %}{% static 'user_default.png' %}{% endif %}" alt="users" class="border rounded-circle" height="100">
           </div>
           <div class="col-sm-10">
             <h3><span>{{ user.first_name }}</span><span> {{ user.last_name }}</span></h3>
             <div>{{ user.email }}</div>
           </div>
           <div class="col-sm-1 text-right">
-            <a href="#" class="btn btn-outline-primary btn-sm">Edit</a>
+            <a href="{% url 'edit_profile' user.pk %}" class="btn btn-outline-primary btn-sm">Edit</a>
           </div>
         </div>
         <hr>
@@ -28,17 +27,21 @@
         <div class="card-group py-2">
           <div class="card bg-light">
             <div class="card-body">
-              <h3>20</h3>
+              <h3>{{ order.count }}</h3>
               <p class="font-weight-bold">
+                {% if order.count > 1 %}
                 Orders
+                {% else %}
+                Order
+                {% endif %}
               </p>
             </div>
           </div>
           <div class="card bg-light">
             <div class="card-body">
-              <h3>20</h3>
+              <h3>{{ total }}</h3>
               <p class="font-weight-bold">
-                Items in cart
+                Total items in cart
               </p>
             </div>
           </div>
@@ -58,7 +61,7 @@
     <div class="card-body">
       <h2>Recent orders</h2>
       <div class="row py-3">
-        {% for item in order.item.all %}
+        {% for item in order %}
         <div class="col-sm-4"> 
           <div class="row">
             <div class="col-sm-3">

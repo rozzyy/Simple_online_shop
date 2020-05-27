@@ -12,7 +12,8 @@
 }
 
 .search-width {
-    width: 40rem;
+    width: 35rem;
+    margin-right: 4rem;
 }
 
 @media only screen and (max-width: 600px) {
@@ -36,11 +37,11 @@
 }
 
 .active a {
-    color: greenyellow;
+    color: rgb(24, 10, 218);
 }
 
 .nav-item a:hover {
-    color: rgb(153, 147, 147);
+    color: rgb(24, 10, 218);
 }
 
 .lebar {

@@ -7,6 +7,7 @@ from django.views.generic import (
 )
 from django.views.generic.base import View
 from django.urls import reverse_lazy
+from users.models import Account
 from .models import Contact, Product, Cart, Order
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
@@ -18,12 +19,24 @@ from django.contrib.auth.decorators import login_required
 
 
 # User Profile View
-class ProfilePageView(View):
+class ProfilePageView(LoginRequiredMixin, View):
     template_name = 'account/profile.html'
+    login_url = 'login'
 
     def get(self, *args, **kwargs):
-        return render(self.request, self.template_name, {})
+        order = Order.objects.get(user=self.request.user).item.all().order_by('-quantity')
+        total = 0
+        for total_quantity in order:
+            total += total_quantity.quantity
 
+        user = Account.objects.get(id=self.request.user.pk)
+        return render(self.request, self.template_name, {'order': order, 'user': user, 'total': total})
+
+class ProfileEditView(UpdateView):
+    model = Account
+    fields = ['username', 'first_name', 'last_name', 'email', 'photo', 'address']
+    template_name = 'account/edit_profile.html'
+    success_url = reverse_lazy('profile')
 
 class HomePageView(View):
     template_name = 'home.html'

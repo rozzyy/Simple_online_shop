@@ -13,11 +13,13 @@ from .views import (
     add_to_cart,
     remove_from_cart,
     single_remove_item,
+    ProfileEditView,
 )
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('profile/', ProfilePageView.as_view(), name='profile'),
+    path('profile/edit/<int:pk>/', ProfileEditView.as_view(), name='edit_profile'),
     path('product/', ProductPageView.as_view(), name='product'),
     path('detail/<int:id>/', DetailPageView.as_view(), name='detail'),
     path('cart/', CartView.as_view(), name='cart'),
