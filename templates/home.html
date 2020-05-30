@@ -3,7 +3,7 @@
 
 {% block content %}
     <section>
-        <div class="border-bottom border-top border-success">
+        <div class="border-bottom border-top border-primary">
         <nav class="nav container navbar-expand-lg">
             <button class="navbar-toggler navbar-light bg-light" type="button" data-toggle="collapse" data-target="#navbar2" aria-controls="navbar2" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -28,23 +28,23 @@
             <span class="display-3" style="padding-top: 10rem;">Banner</span>
             <p class="display-4">500x500</p>
         </div>
-        <div class="row card-body py-5">
+        <div class="row card-body py-5 text-center">
             <div class="col-sm-4">
-                <i class="fa fa-truck fa-3x text-success"></i>
+                <i class="fa fa-truck fa-3x text-primary"></i>
                 <h4>Fast Delivery</h4>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id error corrupti similique ullam molestias odio libero
                 </p>
             </div>
             <div class="col-sm-4">
-                <i class="fa fa-landmark fa-3x text-success"></i>
+                <i class="fa fa-landmark fa-3x text-primary"></i>
                 <h4>Creative Strategy</h4>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id error corrupti similique ullam molestias odio libero
                 </p>
             </div>
             <div class="col-sm-4">
-                <i class="fa fa-lock fa-3x text-success"></i>
+                <i class="fa fa-lock fa-3x text-primary"></i>
                 <h4>High Secure</h4>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id error corrupti similique ullam molestias odio libero
@@ -55,8 +55,8 @@
         <div class="row">
             {% for product in popular %}
             <div class="col-sm-3">
-                <div class="card border-success shad">
-                    <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..."></a>
+                <div class="card shad">
+                    <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..." height="250"></a>
                     <div class="card-body text-center">
                       <p>{{ product.title }}</p>
                     {% with ''|center:5 as range %}
@@ -81,14 +81,14 @@
                <h2>Latest Products</h2>
            </div>
            <div class="col-sm-3 text-right">
-               <a href="{% url 'product' %}" class="btn btn-outline-success">See All</a>
+               <a href="{% url 'product' %}" class="btn btn-outline-primary">See All</a>
            </div>
        </div>
         <div class="row py-3">
         {% for product in latest %}
             <div class="col-sm-3">
-                <div class="card border-success shad">
-                    <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..."></a>
+                <div class="card shad">
+                    <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..." height="250"></a>
                     <div class="card-body text-center">
                       <p>{{ product.title }}</p>
                     {% with ''|center:5 as range %}

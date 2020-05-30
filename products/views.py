@@ -1,6 +1,5 @@
-from django.views.generic import (
-    TemplateView, 
-    ListView, 
+from django.views.generic import ( 
+    TemplateView,
     CreateView, 
     DetailView,
     UpdateView
@@ -32,11 +31,12 @@ class ProfilePageView(LoginRequiredMixin, View):
         user = Account.objects.get(id=self.request.user.pk)
         return render(self.request, self.template_name, {'order': order, 'user': user, 'total': total})
 
-class ProfileEditView(UpdateView):
+class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = Account
     fields = ['username', 'first_name', 'last_name', 'email', 'photo', 'address']
     template_name = 'account/edit_profile.html'
     success_url = reverse_lazy('profile')
+    login_url = 'login'
 
 class HomePageView(View):
     template_name = 'home.html'
@@ -60,7 +60,7 @@ class ProductPageView(View):
 
     def get(self, request):
         product = Product.objects.order_by('created_date')
-        paginator = Paginator(product, 15)
+        paginator = Paginator(product, 12)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 

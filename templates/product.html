@@ -7,15 +7,12 @@
         <!-- first roq-->
         <div class="row px-3">
             <!-- first coloumn -->
-            <div class="col-sm-3 list-group">
+            <div class="col-sm-2 list-group">
                 <!-- filters sidebar -->
                 <form method="GET" action="{% url 'search' %}">
                 <div class="list-group-item">
                     <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#category">Categories</a>
                     <div class="collapse py-3 show" id="category">
-                            <div class="input-group">
-                                <input type="text" class="form-control search-width" placeholder="Search..." name='q'>
-                            </div>
                         <div class="py-2">
                             <div class="custom-control custom-checkbox mb-3">
                                 {% for category in categories %}
@@ -65,8 +62,8 @@
                 <div class="row">
                     {% for product in product %}
                     <div class="col-sm-3 pb-3">
-                        <div class="card border-success shad">
-                            <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..."></a>
+                        <div class="card shad">
+                            <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..." height="200"></a>
                             <div class="card-body text-center">
                               <p>{{ product.title }}</p>
                               {% with ''|center:5 as range %}
