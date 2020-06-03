@@ -9,7 +9,6 @@
             <!-- first coloumn -->
             <div class="col-sm-2 list-group">
                 <!-- filters sidebar -->
-                <form method="GET" action="{% url 'search' %}">
                 <div class="list-group-item">
                     <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#category">Categories</a>
                     <div class="collapse py-3 show" id="category">
@@ -17,8 +16,7 @@
                             <div class="custom-control custom-checkbox mb-3">
                                 {% for category in categories %}
                                 <div>
-                                    <input type="checkbox" class="custom-control-input" id="{{ category.category }}" name="q" value="{{ category.category }}">
-                                    <label class="custom-control-label" for="{{ category.category }}">{{ category.category }}</label>
+                                    <a href="{% url 'search' %}?q={{ category }}">{{ category }}</a>
                                 </div>
                                 {% endfor %}
                             </div>
@@ -31,28 +29,38 @@
                         <div class="custom-control custom-checkbox mb-3">
                             {% for brand in brands %}
                             <div>
-                                <input type="checkbox" class="custom-control-input" id="{{ brand.brand }}" name="q" value="{{ brand.brand }}">
-                                <label class="custom-control-label" for="{{ brand.brand }}">{{ brand.brand }}</label>
+                                <a href="{% url 'search' %}?q={{ brand }}">{{ brand }}</a>
                             </div>
                             {% endfor %}
                         </div>
                     </div>
                 </div>
                 <div class="list-group-item">
-                    <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#product">Product Name</a>
-                    <div class="collapse py-3 show" id="product">
+                    <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#brand">Prices</a>
+                    <div class="collapse py-3 show" id="brand">
                         <div class="custom-control custom-checkbox mb-3">
-                            {% for product in title %}
-                            <div>
-                                <input type="checkbox" class="custom-control-input" id="{{ product.title }}" name="q" value="{{ product.title }}">
-                                <label class="custom-control-label" for="{{ product.title }}">{{ product.title }}</label>
-                            </div>
-                            {% endfor %}
+                           <div class="row">
+                               <div class="col">
+                                <form action="{% url 'search' %}" method="GET"> 
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Min</label>
+                                      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                      name="min">
+                                    </div>
+                               </div>
+                               <div class="col">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Max</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                    name="max">
+                                  </div>
+                               </div>
+                           </div>
+                           <button type="submit" class="btn btn-primary btn-sm container">Apply</button>
+                                </form>
                         </div>
-                        <button class="btn btn-primary container" type="submit">Apply</button>
                     </div>
                 </div>
-                </form>
                 <!-- end of filter -->
             </div>
             <!-- end of first coloumn -->

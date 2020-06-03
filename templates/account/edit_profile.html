@@ -3,11 +3,14 @@
 
 {% block content %}
     <section class="container py-5">
+        <div class="form-width">
         <h1>Edit Profile</h1>
         <form enctype="multipart/form-data" method="POST">
             {% csrf_token %}
             {{ form|crispy }}
             <button type="submit" class="btn btn-primary btn-sm">Update</button>
-        </form>
+            <a href="{% url 'profile' %}" class="btn btn-danger btn-sm">Cancel</a>
+        </form> 
+        </div>
     </section>
 {% endblock content %}

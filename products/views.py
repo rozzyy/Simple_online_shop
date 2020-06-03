@@ -15,6 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from collections import Counter
 
 
 # User Profile View
@@ -48,12 +49,18 @@ class HomePageView(View):
         page_obj = latest_paginator.get_page(page_number)
 
         category = Product.objects.all().values('category').order_by('category')
+        kategori = []
+
+        for item in category:
+            kategori.append(item["category"])
+        
+        sorting_kategori = Counter(kategori)
 
         popular = Product.objects.order_by('-reviews')
         popular_paginator = Paginator(popular, 4)
         popular_page_obj = popular_paginator.get_page(page_number)
        
-        return render(request, self.template_name, {'latest': page_obj, 'category': category, 'popular': popular_page_obj})
+        return render(request, self.template_name, {'latest': page_obj, 'category': sorting_kategori, 'popular': popular_page_obj})
 
 class ProductPageView(View):
     template_name = 'product.html'
@@ -64,11 +71,23 @@ class ProductPageView(View):
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
+        #filter category
         categories = Product.objects.all().values('category').order_by('category')
-        brands = Product.objects.all().values('brand').order_by('brand')
-        title = Product.objects.all().values('title').order_by('title')[:10]
+        kategori =[]
 
-        return render(request, self.template_name, {'product': page_obj, 'categories': categories, 'brands': brands, 'title': title})
+        for item in categories:
+            kategori.append(item["category"])
+
+        full_kategori = Counter(kategori)
+
+        #filter brands
+        brands = Product.objects.all().values('brand').order_by('brand')
+        brand = []
+        for merk in brands:
+            brand.append(merk["brand"])
+        full_brand = Counter(brand)
+
+        return render(request, self.template_name, {'product': page_obj, 'categories': full_kategori, 'brands': full_brand})
 
 class DetailPageView(View):
     template_name = 'detail.html'
@@ -304,7 +323,47 @@ class SearchView(View):
    template_name = 'search.html'
 
    def get(self, request):
-       query = self.request.GET.get('q')
-       search = Product.objects.filter(Q(title__icontains=query) | Q(category__icontains=query) | Q(brand__icontains=query))
+       if self.request.GET.get('q'):
+            query = self.request.GET.get('q')
+            query_list = query.split(" ")
+            maximum = None
+            minimum = None
 
-       return render(request, self.template_name, {'query': query, 'search': search})
+            q = Q(title__icontains=query_list[0]) | Q(category__icontains=query_list[0]) | Q(brand__icontains=query_list[0])
+            for item in query_list[1:]:
+                q.add(Q(title__icontains=item) | Q(category__icontains=item) | Q(brand__icontains=item), q.connector)
+    
+            search = Product.objects.filter(q)
+            paginator = Paginator(search, 8)
+            page_number = self.request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+
+       else:
+            minimum = self.request.GET.get('min')
+            maximum = self.request.GET.get('max')
+            query = None
+
+            search = Product.objects.filter(price__range=(minimum, maximum)).order_by('price')
+            paginator = Paginator(search, 8)
+            page_number = self.request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+       
+
+       #filter category
+       category = Product.objects.all().values('category')
+       kategori = []
+
+       for item in category:
+           kategori.append(item["category"])
+       full_kategori = Counter(kategori)
+
+       #filter brand
+       brand = Product.objects.all().values('brand')
+       merk = []
+
+       for produk in brand:
+           merk.append(produk["brand"])
+
+       full_merk = Counter(merk)
+
+       return render(request, self.template_name, {'query': query, 'search': page_obj, 'category': full_kategori, 'brand': full_merk, 'max': maximum, 'min': minimum})

@@ -1,39 +1,172 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<section class="container py-5">
-  {% if query == ""%}
-  <h3>Result for "ALL"</h3>
-  {% else %}
-  <h3>Result for "{{ query }}"</h3>
-  {% endif %}
-  <hr>
-  {% if search.exists == False %}
-    <div class="alert alert-danger container">No Result Found.</div>
-  {% endif %} 
-    <div class="row py-3">
-      {% for product in search %}
-      <div class="col-sm-3">
-        <div class="card shad">
-          <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..."></a>
-          <div class="card-body text-center">
-            <p>{{ product.title }}</p>
-            {% with ''|center:5 as range %}
-            {% for _ in range %}
-              <span><i class="fa fa-star 
-              {% if forloop.counter <= product.rating %}
-                text-warning
-              {% else %}
-                text-secondary
-              {% endif %}"></i></span>
-            {% endfor %}    
-            {% endwith %}
-              <span class="text-muted">{{ product.reviews }} reviews</span>
-              <span class="font-weight-bold">${{ product.price }}</span>
-          </div>
+    <!-- Section -->
+    <section class="container-fluid py-5">
+        {% if search.object_list.exists == False %}
+        <section class="container-fluid py-5" style="height: 20rem;">
+            <div class="alert alert-warning container">
+                No Result Found. << <a href="{% url 'product' %}">Back</a>
+            </div>
+        {% else %}
+        <!-- first roq-->
+        <div class="row px-3">
+            <!-- first coloumn -->
+            <div class="col-sm-2 list-group">
+                <!-- filters sidebar -->
+                <div class="list-group-item">
+                    <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#category">Categories</a>
+                    <div class="collapse py-3 show" id="category">
+                        <div class="py-2">
+                            <div class="custom-control custom-checkbox mb-3">
+                                {% for item in category %}
+                                <div>
+                                    <a href="{% url 'search' %}?q={{ item }}">{{ item }}</a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#brand">Brands</a>
+                    <div class="collapse py-3 show" id="brand">
+                        <div class="custom-control custom-checkbox mb-3">
+                            {% for item in brand %}
+                            <div>
+                                <a href="{% url 'search' %}?q={{ item }}">{{ item }}</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <a type="button" class="font-weight-bold dropdown-toggle text-primary" data-toggle="collapse" data-target="#brand">Prices</a>
+                    <div class="collapse py-3 show" id="brand">
+                        <div class="custom-control custom-checkbox mb-3">
+                           <div class="row">
+                               <div class="col-sm-6">
+                                <form>
+                                    <div class="form-group">
+                                      <label for="exampleInputEmail1">Min</label>
+                                      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                      name="min">
+                                    </div>
+                               </div>
+                               <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Max</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                    name="max">
+                                  </div>
+                               </div>
+                           </div>
+                           <button type="submit" class="btn btn-primary btn-sm container">Apply</button>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of filter -->
+            </div>
+            <!-- end of first coloumn -->
+            <!-- second coloumn -->
+            <div class="col-sm-9">
+                <h5><i class="fa fa-list"></i> Products</h5>
+                <div class="row">
+                    {% for product in search %}
+                    <div class="col-sm-3 pb-3">
+                        <div class="card shad">
+                            <a href="{% url 'detail' product.pk %}"><img src="{{ product.image.url }}" class="card-img-top" alt="..." height="200"></a>
+                            <div class="card-body text-center">
+                              <p>{{ product.title }}</p>
+                              {% with ''|center:5 as range %}
+                              {% for _ in range %}
+                                <span><i class="fa fa-star 
+                                    {% if forloop.counter <= product.rating %}
+                                        text-warning
+                                    {% else %}
+                                        text-secondary
+                                    {% endif %}"></i></span>
+                    {% endfor %}    
+                    {% endwith %}
+                              <span class="text-muted">{{ product.rating }}/5.0</span>
+                              <div class="text-muted">
+                                  {% if product.reviews > 1 %}
+                                  {{ product.reviews }} reviews
+                                  {% else %}
+                                  {{ product.reviews }} review
+                                  {% endif %}
+                              </div>
+                              <p class="font-weight-bold">${{ product.price }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li class="page-item">
+                        {% if query == None %}
+                        <a class="page-link" href="?min={{ min }}&max={{ max }}&page=1"><i class="fa fa-chevron-left"></i></a>
+                        {% else %}
+                        <a class="page-link" href="?q={{ query }}&page=1"><i class="fa fa-chevron-left"></i></a>
+                        {% endif %}
+                      </li>
+                      <li class="page-item">
+                        {% if search.has_previous %}
+                            {% if query == None %}
+                            <a href="?min={{ min }}&max={{ max }}&page={{ search.previous_page_number }}" class="page-link"><i class="fa fa-angle-double-left"></i></a>
+                            {% else %}
+                            <a href="?q={{ query }}&page={{ search.previous_page_number }}" class="page-link"><i class="fa fa-angle-double-left"></i></a>
+                            {% endif %}
+                        {% endif %}
+                      </li>
+                      {% for page_num in search.paginator.page_range %} 
+                      {% if search.number == page_num %}
+                      <li class="page-item active">
+                        <span class="page-link"
+                          >{{ page_num }} <span class="sr-only">(current)</span></span
+                        >
+                      </li>
+                      {% elif page_num > search.number|add:'-5' and page_num < search.number|add:'5' %}
+                      <li class="page-item">
+                        {% if query == None %}
+                        <a class="page-link" href="?min={{ min }}&max={{ max }}&page={{ page_num }}">{{ page_num }}</a>
+                        {% else %}
+                        <a class="page-link" href="?q={{ query }}&page={{ page_num }}">{{ page_num }}</a>
+                        {% endif %}
+                      </li>
+                      {% endif %} {% endfor %}
+                      <li class="page-item">
+                        {% if search.has_next %}
+                            {% if query == None %}
+                            <a href="?min={{ min }}&max={{ max }}&page={{ search.next_page_number }}" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+                            {% else %}
+                            <a href="?q={{ query }}&page={{ search.next_page_number }}" class="page-link"><i class="fa fa-angle-double-right"></i></a>
+                            {% endif %}
+                        {% endif %}
+                      </li>
+                      <li class="page-item">
+                        {% if query == None %}
+                        <a class="page-link" href="?min={{ min }}&max={{ max }}&page={{ search.paginator.num_pages}}"
+                        ><i class="fa fa-chevron-right"></i
+                      ></a>
+                        {% else %}
+                        <a class="page-link" href="?q={{ query }}&page={{ search.paginator.num_pages}}"
+                          ><i class="fa fa-chevron-right"></i
+                        ></a>
+                        {% endif %}
+                      </li>
+                    </ul>
+                  </nav>
+                <!-- end of pagination -->
+            </div>
+            <!-- end of second coloumn -->
         </div>
-      </div>
-      {% endfor %}
-  </div>
-</section>
+        <!-- end of first row -->
+        {% endif %}
+    </section>
+    <!-- end of sections -->
 {% endblock content %}

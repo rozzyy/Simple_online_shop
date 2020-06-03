@@ -48,14 +48,14 @@
                                 </td>
                                 <td class="py-4">
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{% url 'single_remove_item' order_item.product.pk %}" type="button" class="btn btn-outline-dark btn-sm"><i class="fa fa-minus"></i></a>
+                                        <a href="{% url 'single_remove_item' order_item.product.pk %}" type="button" class="btn btn-outline-primary btn-sm"><i class="fa fa-minus"></i></a>
                                         <div class="border pt-2 px-3">{{ order_item.quantity }}</div>
-                                        <a href="{% url 'add_to_cart' order_item.product.pk %}" class="btn btn-outline-dark btn-sm"><i class="fa fa-plus"></i></a>
+                                        <a href="{% url 'add_to_cart' order_item.product.pk %}" class="btn btn-outline-primary btn-sm"><i class="fa fa-plus"></i></a>
                                       </div>
                                 </td>
                                 <td class="py-4">${{ order_item.product.price }}</td>
                                 <td class="py-4">
-                                    <a href="{% url 'remove_from_cart' order_item.product.pk %}" class="btn btn-outline-dark btn-sm container"><i class="fa fa-trash-alt"></i> Remove</a>
+                                    <a href="{% url 'remove_from_cart' order_item.product.pk %}" class="btn btn-outline-primary btn-sm container"><i class="fa fa-trash-alt"></i> Remove</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -86,8 +86,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p><a href="{% url 'order' %}" class="btn btn-dark container"><i class="fa fa-shopping-basket"></i> Make Purchase</a></p>
-                    <a href="{% url 'product' %}" class="btn btn-outline-dark container"><i class="fa fa-shopping-bag"></i> Continue Shopping</a>
+                    <p><a href="{% url 'order' %}" class="btn btn-primary container"><i class="fa fa-shopping-basket"></i> Make Purchase</a></p>
+                    <a href="{% url 'product' %}" class="btn btn-outline-primary container"><i class="fa fa-shopping-bag"></i> Continue Shopping</a>
                 </div>
                </div>
             </div>
