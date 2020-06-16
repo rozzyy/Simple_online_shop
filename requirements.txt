@@ -7,3 +7,4 @@ whitenoise
 pytz
 cloudinary
 django-cloudinary-storage
+django-cors-headers
