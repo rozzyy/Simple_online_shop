@@ -3,5 +3,5 @@ pillow
 django-mathfilters
 django-crispy-forms
 gunicorn
-whitenoise
+whitenoise==4.0
 pytz
