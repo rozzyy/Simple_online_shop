@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django.contrib.humanize',
     'mathfilters',
-    'cloudinary_storage',
-    'cloudinary',
 
 ]
 
@@ -143,14 +141,6 @@ LOGOUT_REDIRECT_URL = 'home'
 #Crispy template pack
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-#cloudinary API
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'online-shop',
-    'API_KEY': '327386388128677',
-    'API_SECRET': 'U7IbEsPjj8To8Hfdf9ceNyzgCF4',
-}
-
 #media root
 MEDIA_URL = '/media/'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_ROOT = [os.path.join(BASE_DIR, 'media')]
