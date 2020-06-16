@@ -14,4 +14,5 @@ Demo:
 - homepage demo:
   https://simple-online-shop.herokuapp.com/
 - admin panel demo: I use Adminlte template for built the dashboard
+- admin panel demo picture: https://id.pinterest.com/rozzyrahmanda/simple-online-shop/
   
