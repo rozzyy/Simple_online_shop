@@ -315,7 +315,7 @@ class SignUpDoneView(TemplateView):
 
 class ContactView(CreateView):
     model = Contact
-    fields = '__all__'
+    fields = ['name', 'email', 'subject', 'message']
     template_name = 'contact.html'
     success_url = reverse_lazy('contact')
 

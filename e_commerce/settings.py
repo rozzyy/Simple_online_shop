@@ -132,7 +132,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 AUTH_USER_MODEL = 'users.Account'
 
 #login logout redirect url
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'login_success'
 LOGOUT_REDIRECT_URL = 'home'
 
 #Crispy template pack

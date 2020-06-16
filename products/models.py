@@ -46,6 +46,9 @@ class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     message = models.TextField()
+    subject = models.CharField(max_length=100)
+    created_date = models.DateTimeField(auto_now_add=True)
+    view = models.BooleanField(default=False)
 
     def __str__(self):
         return self.email
