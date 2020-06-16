@@ -2,3 +2,6 @@ django
 pillow
 django-mathfilters
 django-crispy-forms
+gunicorn
+whitenoise
+pytz
